@@ -1,0 +1,60 @@
+@import url("https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400..900;1,400..900&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.alegreya_sans {
+  font-family: var(--font-alegreya_sans);
+}
+.eczar {
+  font-family: var(--font-eczar);
+}
+h1 {
+  font-family: "alegreya_sans";
+}
+h2 {
+  font-family: "alegreya_sans";
+}
+h3 {
+  font-family: "alegreya_sans";
+}
+h4 {
+  font-family: "alegreya_sans";
+}
+h5 {
+  font-family: "alegreya_sans";
+}
+h6 {
+  font-family: "alegreya_sans";
+}
+p {
+  font-family: "eczar";
+}
+
+.darkmodeelements {
+  background-color: hsl(208, 23%, 22%);
+}
+
+.lightmodeelements {
+  background-color: hsl(0, 0%, 100%);
+}
+
+.darkmodebg {
+  background-color: hsl(207, 26%, 17%);
+}
+
+.lightmodetext {
+  color: hsl(200, 15%, 8%);
+}
+
+.darkmodetext {
+  color: hsl(0, 0%, 100%);
+}
+
+.lightmodeinput {
+  background-color: hsl(0, 0%, 52%);
+}
+
+.lightmodebg {
+  background-color: hsl(0, 0%, 98%);
+}
