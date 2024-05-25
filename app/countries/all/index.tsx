@@ -14,8 +14,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import { Button } from "@/components/ui/button";
 
 const All = () => {
+  const rowsPerPage = 12;
+  const [startIndex, setStartIndex] = useState(0);
+  const [endIndex, setEndIndex] = useState(rowsPerPage);
   const [countries, setCountries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -39,13 +50,14 @@ const All = () => {
 
   const mappedCountries = countries?.map((country: any) => ({
     countryName: country.name.official,
+    commonName: country.name.common,
     population: country.population,
     region: country.region,
     capital: country.capital,
     flag: country.flags.png,
   }));
 
-  const r = mappedCountries.map((reg) => reg.region);
+  const r = mappedCountries.map((reg) => reg.commonName);
   console.log(r);
   //console.log(mappedCountries);
 
@@ -66,6 +78,10 @@ const All = () => {
   const handleRegion = (value: string) => {
     setSelectedRegion(value);
     console.log(value);
+  };
+
+  const handleViewCountryDetails = (capital: any) => {
+    console.log(capital);
   };
 
   return (
@@ -131,49 +147,92 @@ const All = () => {
           <div>Loading Countries...</div>
         ) : (
           <div className="grid grid-cols-4 gap-6">
-            {filteredCountries.map((country: any, index) => (
-              <div
-                key={index}
-                className={`${
-                  theme === "light"
-                    ? "border-slate-200  border-2 border-solid"
-                    : "border-none"
-                }flex flex-col shadow-md rounded-[6px]`}
-              >
-                <div className="h-[200px] w-full rounded-[6px]">
-                  <img
-                    src={country.flag}
-                    className="w-full h-full rounded-t-[6px]"
-                  />
-                </div>
+            {filteredCountries
+              .slice(startIndex, endIndex)
+              .map((country: any, index) => (
                 <div
+                  onClick={() =>
+                    handleViewCountryDetails(country.capital[0].toLowerCase())
+                  }
+                  key={index}
                   className={`${
                     theme === "light"
-                      ? "lightmodetext lightmodeelements"
-                      : "darkmodetext darkmodeelements"
-                  } px-5 pt-5 pb-8 flex flex-col gap-1 rounded-b-[6px]`}
+                      ? "border-slate-200  border-2 border-solid"
+                      : "border-none"
+                  }flex flex-col shadow-md rounded-[6px]`}
                 >
-                  <p className="text-xl font-extrabold pb-3">
-                    {country.countryName}
-                  </p>
-                  <p>
-                    <span className="font-semibold">Population:</span>{" "}
-                    {country.population.toLocaleString()}
-                  </p>
-                  <p>
-                    <span className="font-semibold">Region:</span>{" "}
-                    {country.region}
-                  </p>
-                  <p>
-                    <span className="font-semibold">Capital:</span>{" "}
-                    {country.capital}
-                  </p>
+                  <div className="h-[200px] w-full rounded-[6px]">
+                    <img
+                      src={country.flag}
+                      className="w-full h-full rounded-t-[6px]"
+                    />
+                  </div>
+                  <div
+                    className={`${
+                      theme === "light"
+                        ? "lightmodetext lightmodeelements"
+                        : "darkmodetext darkmodeelements"
+                    } px-5 pt-5 pb-8 flex flex-col gap-1 rounded-b-[6px]`}
+                  >
+                    <p className="text-xl font-extrabold pb-3">
+                      {country.countryName}
+                    </p>
+                    <p>
+                      <span className="font-semibold">Population:</span>{" "}
+                      {country.population.toLocaleString()}
+                    </p>
+                    <p>
+                      <span className="font-semibold">Region:</span>{" "}
+                      {country.region}
+                    </p>
+                    <p>
+                      <span className="font-semibold">Capital:</span>{" "}
+                      {country.capital}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
           </div>
         )}
       </div>
+      {loading ? (
+        <div></div>
+      ) : (
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <Button>
+                <PaginationPrevious
+                  className={`${
+                    endIndex === 12
+                      ? "pointer-events-none opacity-50"
+                      : undefined
+                  } ${theme === "light" ? "lightmodetext" : "darkmodetext"}`}
+                  onClick={() => {
+                    setStartIndex(startIndex - rowsPerPage);
+                    setEndIndex(endIndex - rowsPerPage);
+                  }}
+                />
+              </Button>
+            </PaginationItem>
+            <PaginationItem>
+              <Button>
+                <PaginationNext
+                  className={`${
+                    endIndex === 250
+                      ? "pointer-events-none opacity-50"
+                      : undefined
+                  } ${theme === "light" ? "lightmodetext" : "darkmodetext"}`}
+                  onClick={() => {
+                    setStartIndex(startIndex + rowsPerPage); //12
+                    setEndIndex(endIndex + rowsPerPage); //12 + 12 = 32
+                  }}
+                />
+              </Button>
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      )}
     </div>
   );
 };
