@@ -5,7 +5,12 @@ import React from "react";
 import { IoMoonSharp } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "./ui/button";
+import { Nunito_Sans } from "next/font/google";
 
+const nunito = Nunito_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "700", "900"],
+});
 const Header = () => {
   const dispatch = useDispatch();
   const theme = useSelector((state: RootState) => state.changeTheme.theme);
@@ -21,12 +26,12 @@ const Header = () => {
     <div
       className={`${
         theme === "light"
-          ? "lightmodeelements border-b-[1px] border-slate-300"
+          ? "bg-transparent border-b-[1px] border-slate-300"
           : "border-none darkmodeelements"
-      } flex items-center justify-between py-5 pl-12 pr-9 `}
+      } ${nunito.className} flex flex-col md:flex-row items-center justify-between py-5 pl-12 pr-9 `}
     >
       <header
-        className={`${theme === "dark" ? "darkmodetext" : "lightmodetext"} `}
+        className={`${theme === "dark" ? "darkmodetext" : "lightmodetext"} font-bold text-2xl`}
       >
         Where in the world?
       </header>
@@ -42,7 +47,7 @@ const Header = () => {
         )}
 
         <p
-          className={`${theme === "dark" ? "darkmodetext" : "lightmodetext"} `}
+          className={`${theme === "dark" ? "darkmodetext" : "lightmodetext"} ${nunito.className} font-bold text-lg`}
         >
           {theme === "light" ? "Light mode" : "Dark mode"}
         </p>

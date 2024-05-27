@@ -15,15 +15,28 @@ export const countryDetails = createAsyncThunk(
   }
 );
 
+//interface Countries {
+//  countries: Array<{
+//    capital: string;
+//    commonName: string;
+//    countryName: string;
+//    flag: string;
+//    population: number;
+//    region: string;
+//  }>;
+//}
+
 export interface ThemeState {
   theme: string;
-  countries: string[];
+  capital: string;
+  countries: Array<{}>;
   loading: boolean;
   error: boolean;
 }
 
 const initialState: ThemeState = {
   theme: "light",
+  capital: "",
   countries: [],
   loading: false,
   error: false,
@@ -35,6 +48,12 @@ const changeThemeSlice = createSlice({
   reducers: {
     setTheme(state, action) {
       state.theme = action.payload;
+    },
+    setCapital(state, action) {
+      state.capital = action.payload;
+    },
+    setCountriesState(state, action) {
+      state.countries = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -54,5 +73,6 @@ const changeThemeSlice = createSlice({
   },
 });
 
-export const { setTheme } = changeThemeSlice.actions;
+export const { setTheme, setCapital, setCountriesState } =
+  changeThemeSlice.actions;
 export default changeThemeSlice.reducer;
