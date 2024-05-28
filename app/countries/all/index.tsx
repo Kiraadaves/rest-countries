@@ -54,7 +54,7 @@ const All = () => {
       }
     };
     fetchCountries();
-  }, []);
+  }, [dispatch, countries]);
 
   //console.log(countries)
 
@@ -108,17 +108,17 @@ const All = () => {
     <div
       className={`${
         theme === "light" ? "lightmodebg" : "darkmodebg"
-      } py-9 px-12 flex flex-col gap-9 h-screen`}
+      } py-9 px-12 flex flex-col gap-9 h-full`}
     >
       <div
-        className={`relative  w-full flex md:justify-between flex-col gap-6 items-center md:flex-row`}
+        className={`relative  w-full flex lg:justify-between flex-col gap-6 items-center lg:flex-row`}
       >
         <div
           className={`${
             theme === "light"
-              ? "border-slate-200  border-2 border-solid bg-transparent"
+              ? "border-slate-200  border-2 border-solid bg-[#ffffff]"
               : "border-none darkmodeelements"
-          } flex  items-center rounded-[6px] px-3  shadow-md md:w-1/3 w-full`}
+          } flex  items-center rounded-[6px] px-5  shadow-md lg:w-1/3 w-full`}
         >
           {theme === "light" ? (
             <IoIosSearch className="h-5 w-5 " />
@@ -140,9 +140,9 @@ const All = () => {
           <SelectTrigger
             className={`${
               theme === "light"
-                ? "bg-transparent lightmodetext border-slate-200  border-2 border-solid"
+                ? "bg-[#ffffff] lightmodetext border-slate-200  border-2 border-solid"
                 : "border-none darkmodeelements darkmodetext"
-            } rounded-[6px] shadow-md md:w-[180px] w-full h-[48px] px-4`}
+            } rounded-[6px] shadow-md lg:w-[180px] w-full h-[48px] px-4`}
           >
             <SelectValue placeholder="Filter by region" />
           </SelectTrigger>
@@ -150,7 +150,7 @@ const All = () => {
           <SelectContent
             className={`${
               theme === "light"
-                ? "bg-background lightmodetext border-slate-200  border-2 border-solid"
+                ? "bg-[#ffffff] lightmodetext border-slate-200  border-2 border-solid"
                 : "border-none darkmodeelements darkmodetext"
             } rounded-[6px] shadow-md py-3 `}
           >
@@ -170,7 +170,7 @@ const All = () => {
             <Loader />
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 ">
             {filteredCountries
               .slice(startIndex, endIndex)
               .map((country: any, index) => (
@@ -181,20 +181,20 @@ const All = () => {
                     theme === "light"
                       ? "border-slate-200  border-2 border-solid"
                       : "border-none"
-                  }flex flex-col shadow-md rounded-[6px]`}
+                  }flex flex-col shadow-md rounded-[6px] h-[400px]`}
                 >
                   <div className="h-[200px] w-full rounded-[6px]">
                     <img
                       src={country.flag}
-                      className="w-full h-full rounded-t-[6px]"
+                      className="w-full h-[200px] rounded-t-[6px]"
                     />
                   </div>
                   <div
                     className={`${
                       theme === "light"
-                        ? "lightmodetext bg-transparent"
+                        ? "lightmodetext bg-[#ffffff]"
                         : "darkmodetext darkmodeelements"
-                    } px-5 pt-5 pb-8 flex flex-col gap-1 rounded-b-[6px]`}
+                    } px-5 pt-5  flex flex-col gap-1 rounded-b-[6px] h-[200px]`}
                   >
                     <p className="text-xl font-extrabold pb-3">
                       {country.countryName}

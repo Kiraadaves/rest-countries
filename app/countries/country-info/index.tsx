@@ -60,14 +60,14 @@ const CountryInfo = () => {
     <div
       className={`${
         theme === "light" ? "lightmodebg" : "darkmodebg"
-      } py-20 px-12 flex flex-col gap-20 h-screen`}
+      } lg:py-20  py-10 lg:px-12 md:px-9 px-6 flex flex-col gap-10 h-screen`}
     >
-      <div className="md:block flex justify-center">
+      <div className="">
         <Link
           href="/countries/all"
           className={`${
             theme === "light"
-              ? "border-slate-200  border-2 border-solid bg-transparent"
+              ? "border-slate-200  border-2 border-solid bg-[#ffffff]"
               : "border-none darkmodeelements"
           } flex items-center justify-center gap-3 p-4 rounded-[6px] w-40 shadow-lg`}
         >
@@ -88,64 +88,66 @@ const CountryInfo = () => {
       </div>
 
       {filteredCountry && (
-        <div className="flex flex-col md:flex-row md:gap-24 ">
-          <div className="md:w-1/2 w-full">
+        <div className="flex flex-col xl:flex-row xl:gap-24 py-12">
+          <div className="xl:w-1/2 w-full">
             <img
               src={filteredCountry.flag}
-              className="w-full md:h-full h-[350px]"
+              className="w-full xl:h-full h-[350px] lg:[h-500px]"
             />
           </div>
           <div
             className={`${
               theme === "light" ? "lightmodetext " : "darkmodetext "
-            } md:w-1/2 w-full py-16 flex flex-col gap-12`}
+            } xl:w-1/2 w-full py-16 flex flex-col gap-12`}
           >
-            <p className="text-4xl font-extrabold md:text-left text-center">
+            <p className="text-4xl font-extrabold xl:text-left ">
               {filteredCountry && filteredCountry.commonName}
             </p>
             <div
-              className={`flex flex-col md:flex-row md:justify-between md:items-start text-center md:text-left`}
+              className={`flex flex-col xl:flex-row xl:justify-between xl:items-start  text-left`}
             >
-              <div className="flex flex-col gap-5">
-                <p className="text-xl">
+              <div className="flex flex-col gap-4">
+                <p className="xl:text-base text-lg">
                   <span className="font-semibold">Native Name:</span>{" "}
                   {nativeName}
                 </p>
-                <p className="text-xl">
+                <p className="xl:text-base text-lg">
                   <span className="font-semibold">Population: </span>{" "}
                   {filteredCountry.population.toLocaleString()}
                 </p>
-                <p className="text-xl">
+                <p className="xl:text-base text-lg">
                   <span className="font-semibold">Region: </span>{" "}
                   {filteredCountry.region}
                 </p>
-                <p className="text-xl">
+                <p className="xl:text-base text-lg">
                   <span className="font-semibold">Sub Region: </span>{" "}
                   {filteredCountry.subregion}
                 </p>
-                <p className="text-xl">
+                <p className="xl:text-base text-lg">
                   <span className="font-semibold">Capital: </span>{" "}
                   {filteredCountry.capital[0]}
                 </p>
               </div>
-              <div className="flex flex-col gap-5 mt-5 md:mt-0">
-                <p className="text-xl">
+              <div className="flex flex-col gap-5 mt-5 xl:mt-0">
+                <p className="xl:text-base text-lg">
                   <span className="font-semibold">Top Level Domain:</span>{" "}
                   {filteredCountry.tld}
                 </p>
-                <p className="text-xl">
+                <p className="xl:text-base text-lg">
                   <span className="font-semibold">Currencies:</span> {currency}
                 </p>
-                <p className="text-xl">
+                <p className="xl:text-base text-lg">
                   <span className="font-semibold">Languages:</span>{" "}
                   {formattedLanguageString}
                 </p>
               </div>
             </div>
-            <div className="flex flex-col md:flex-row pt-8 items-center">
-              <p className="text-xl font-semibold mb-4 md:mb-0">Border Countries:</p>{" "}
-              <div className="flex flex-col md:flex-row gap-4 md:ml-4">
-                {filteredCountry.borders.length > 0 ? (
+            <div className="flex flex-col xl:flex-row pt-8 ">
+              <p className="xl:text-base text-lg font-semibold mb-4 xl:mb-0">
+                Border Countries:
+              </p>{" "}
+              <div className=" grid grid-cols-3 xl:gap-3 gap-1 xl:ml-4">
+                {filteredCountry && filteredCountry.borders.length > 0 ? (
                   filteredCountry.borders.map((code: any) => {
                     const borderCountry = countries.find(
                       (c: any) => c.cca3 === code
@@ -155,9 +157,9 @@ const CountryInfo = () => {
                         key={code}
                         className={`${
                           theme === "light"
-                            ? "border-slate-200  border-2 border-solid bg-transparent"
+                            ? "border-slate-200  border-2 border-solid bg-[#ffffff]"
                             : "border-none darkmodeelements"
-                        }  p-3 rounded-[6px] w-40 text-center shadow-md`}
+                        } xl:text-[16px] md:text-[14px] text-[10.5px] xl:px-2 py-3 px-1 rounded-[6px] xl:w-40 w-26 md:w-40 text-center shadow-md`}
                       >
                         {(borderCountry as any).commonName}
                       </span>

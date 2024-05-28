@@ -3,33 +3,6 @@
 @tailwind components;
 @tailwind utilities;
 
-.alegreya_sans {
-  font-family: var(--font-alegreya_sans);
-}
-.eczar {
-  font-family: var(--font-eczar);
-}
-h1 {
-  font-family: "alegreya_sans";
-}
-h2 {
-  font-family: "alegreya_sans";
-}
-h3 {
-  font-family: "alegreya_sans";
-}
-h4 {
-  font-family: "alegreya_sans";
-}
-h5 {
-  font-family: "alegreya_sans";
-}
-h6 {
-  font-family: "alegreya_sans";
-}
-p {
-  font-family: "eczar";
-}
 
 .darkmodeelements {
   background-color: hsl(208, 23%, 22%);
@@ -56,5 +29,5 @@ p {
 }
 
 .lightmodebg {
-  background-color: hsl(0, 0%, 98%);
+  background-color: #fafafa;
 }

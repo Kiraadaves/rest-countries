@@ -26,28 +26,34 @@ const Header = () => {
     <div
       className={`${
         theme === "light"
-          ? "bg-transparent border-b-[1px] border-slate-300"
+          ? "bg-[#ffffff] border-b-[1px] border-slate-300"
           : "border-none darkmodeelements"
-      } ${nunito.className} flex flex-col md:flex-row items-center justify-between py-5 pl-12 pr-9 `}
+      } ${
+        nunito.className
+      } flex items-center justify-between py-5 lg:pl-12 pl-6 lg:pr-9 `}
     >
       <header
-        className={`${theme === "dark" ? "darkmodetext" : "lightmodetext"} font-bold text-2xl`}
+        className={`${
+          theme === "dark" ? "darkmodetext" : "lightmodetext"
+        } font-bold lg:text-2xl text-[16px]`}
       >
         Where in the world?
       </header>
       <Button
         variant="ghost"
         onClick={handleThemeChange}
-        className="flex gap-3 justify-end"
+        className="flex lg:gap-3 gap-2 justify-end"
       >
         {theme === "light" ? (
-          <IoMoonSharp className="h-5 w-5" />
+          <IoMoonSharp className="lg:h-5 lg:w-5" />
         ) : (
-          <IoMoonSharp className="darkmodetext h-5 w-5" />
+          <IoMoonSharp className="darkmodetext lg:h-5 lg:w-5" />
         )}
 
         <p
-          className={`${theme === "dark" ? "darkmodetext" : "lightmodetext"} ${nunito.className} font-bold text-lg`}
+          className={`${theme === "dark" ? "darkmodetext" : "lightmodetext"} ${
+            nunito.className
+          } font-bold lg:text-lg text-[14px]`}
         >
           {theme === "light" ? "Light mode" : "Dark mode"}
         </p>
