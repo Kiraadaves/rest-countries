@@ -26,13 +26,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn(" min-h-screen bg-[#fafafa] antialiased")}>
+      <body className={cn("  antialiased")}>
         <Providers>
-          <div className={` h-full `}>
+          <div className={` `}>
             <div className="">
               <Header />
             </div>
-            <div className="bg-[#ffffff]">{children}</div>
+            <div className="">{children}</div>
             <ToastContainer />
           </div>
         </Providers>

@@ -60,7 +60,7 @@ const CountryInfo = () => {
     <div
       className={`${
         theme === "light" ? "lightmodebg" : "darkmodebg"
-      } lg:py-20  py-10 lg:px-12 md:px-9 px-6 flex flex-col gap-10 h-screen`}
+      } lg:py-20  py-10 lg:px-12 md:px-9 px-6 flex flex-col gap-10 h-full`}
     >
       <div className="">
         <Link
@@ -88,7 +88,7 @@ const CountryInfo = () => {
       </div>
 
       {filteredCountry && (
-        <div className="flex flex-col xl:flex-row xl:gap-24 py-12">
+        <div className="flex flex-col xl:flex-row xl:gap-24 py-12 h-20">
           <div className="xl:w-1/2 w-full">
             <img
               src={filteredCountry.flag}

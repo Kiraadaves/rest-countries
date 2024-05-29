@@ -3,7 +3,7 @@ import CountryInfo from ".";
 
 const page = () => {
   return (
-    <div>
+    <div className="h-screen">
       <CountryInfo />
     </div>
   );

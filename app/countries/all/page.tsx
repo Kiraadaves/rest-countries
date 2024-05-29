@@ -1,10 +1,12 @@
-import React from 'react'
-import All from '.'
+import React from "react";
+import All from ".";
 
 const page = () => {
   return (
-    <div><All/></div>
-  )
-}
+    <div className="h-screen">
+      <All />
+    </div>
+  );
+};
 
-export default page
+export default page;
