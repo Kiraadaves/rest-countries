@@ -147,7 +147,7 @@ const CountryInfo = () => {
                 Border Countries:
               </p>{" "}
               <div className=" grid grid-cols-3 xl:gap-3 gap-1 xl:ml-4">
-                {filteredCountry && filteredCountry.borders.length > 0 ? (
+                {filteredCountry.borders.length && filteredCountry.borders.length > 0 ? (
                   filteredCountry.borders.map((code: any) => {
                     const borderCountry = countries.find(
                       (c: any) => c.cca3 === code

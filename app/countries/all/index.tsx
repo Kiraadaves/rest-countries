@@ -39,6 +39,7 @@ const All = () => {
   const [selectedRegion, setSelectedRegion] = useState("Filter by region");
   const [searchCountry, setSearchCountry] = useState("");
   const theme = useSelector((state: RootState) => state.changeTheme.theme);
+  const success = useSelector((state: RootState) => state.changeTheme.success);
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -214,47 +215,60 @@ const All = () => {
                   </div>
                 </div>
               ))}
+            {!success ? (
+              <div
+                className={`${
+                  theme === "light" ? "lightmodetext" : "darkmodetext"
+                } flex justify-center text-xl text-center`}
+              >
+                <p>
+                  Server Error 😟😢, please check your network and try again!
+                  😔.
+                </p>
+              </div>
+            ) : (
+              <Pagination>
+                <PaginationContent>
+                  <PaginationItem>
+                    <Button>
+                      <PaginationPrevious
+                        className={`${
+                          endIndex === 12
+                            ? "pointer-events-none opacity-50"
+                            : undefined
+                        } ${
+                          theme === "light" ? "lightmodetext" : "darkmodetext"
+                        }`}
+                        onClick={() => {
+                          setStartIndex(startIndex - rowsPerPage);
+                          setEndIndex(endIndex - rowsPerPage);
+                        }}
+                      />
+                    </Button>
+                  </PaginationItem>
+                  <PaginationItem>
+                    <Button>
+                      <PaginationNext
+                        className={`${
+                          endIndex === 250
+                            ? "pointer-events-none opacity-50"
+                            : undefined
+                        } ${
+                          theme === "light" ? "lightmodetext" : "darkmodetext"
+                        }`}
+                        onClick={() => {
+                          setStartIndex(startIndex + rowsPerPage); //12
+                          setEndIndex(endIndex + rowsPerPage); //12 + 12 = 32
+                        }}
+                      />
+                    </Button>
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            )}
           </div>
         )}
       </div>
-      {loading ? (
-        <div></div>
-      ) : (
-        <Pagination>
-          <PaginationContent>
-            <PaginationItem>
-              <Button>
-                <PaginationPrevious
-                  className={`${
-                    endIndex === 12
-                      ? "pointer-events-none opacity-50"
-                      : undefined
-                  } ${theme === "light" ? "lightmodetext" : "darkmodetext"}`}
-                  onClick={() => {
-                    setStartIndex(startIndex - rowsPerPage);
-                    setEndIndex(endIndex - rowsPerPage);
-                  }}
-                />
-              </Button>
-            </PaginationItem>
-            <PaginationItem>
-              <Button>
-                <PaginationNext
-                  className={`${
-                    endIndex === 250
-                      ? "pointer-events-none opacity-50"
-                      : undefined
-                  } ${theme === "light" ? "lightmodetext" : "darkmodetext"}`}
-                  onClick={() => {
-                    setStartIndex(startIndex + rowsPerPage); //12
-                    setEndIndex(endIndex + rowsPerPage); //12 + 12 = 32
-                  }}
-                />
-              </Button>
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
-      )}
     </div>
   );
 };

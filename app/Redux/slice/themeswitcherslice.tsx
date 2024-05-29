@@ -32,6 +32,7 @@ export interface ThemeState {
   countries: Array<{}>;
   loading: boolean;
   error: boolean;
+  success: boolean;
 }
 
 const initialState: ThemeState = {
@@ -40,6 +41,7 @@ const initialState: ThemeState = {
   countries: [],
   loading: false,
   error: false,
+  success: false,
 };
 
 const changeThemeSlice = createSlice({
@@ -62,6 +64,7 @@ const changeThemeSlice = createSlice({
         state.loading = true;
       })
       .addCase(countryDetails.fulfilled, (state, action) => {
+        state.success = true;
         state.loading = false;
         state.countries = action.payload;
         state.error = false;
@@ -69,6 +72,7 @@ const changeThemeSlice = createSlice({
       .addCase(countryDetails.rejected, (state, action) => {
         state.loading = false;
         state.error = true;
+        state.success = false;
       });
   },
 });
