@@ -77,6 +77,9 @@ const changeThemeSlice = createSlice({
   },
 });
 
+export const theme = (state: { changeTheme: ThemeState }) =>
+  state.changeTheme.theme;
+
 export const { setTheme, setCapital, setCountriesState } =
   changeThemeSlice.actions;
 export default changeThemeSlice.reducer;

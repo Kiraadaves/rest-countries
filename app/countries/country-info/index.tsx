@@ -25,7 +25,7 @@ const CountryInfo = () => {
   const formattedLanguageString = languageArray
     ? languageArray.sort().join(", ") + "."
     : undefined;
-  console.log(formattedLanguageString);
+  //console.log(formattedLanguageString);
   //
   const nativeNameArray: any = filteredCountry
     ? Object.entries(filteredCountry.nativeName)
@@ -55,7 +55,7 @@ const CountryInfo = () => {
 
   const currency = mapCurrencies ? mapCurrencies[0].name : undefined;
 
-  console.log("filteredCountry: ", filteredCountry);
+  //console.log("filteredCountry: ", filteredCountry);
   return (
     <div
       className={`${
@@ -89,10 +89,11 @@ const CountryInfo = () => {
 
       {filteredCountry && (
         <div className="flex flex-col xl:flex-row xl:gap-24 py-12 h-20">
-          <div className="xl:w-1/2 w-full">
+          <div className="xl:w-1/2 w-full h-[800px]">
             <img
               src={filteredCountry.flag}
-              className="w-full xl:h-full h-[350px] lg:[h-500px]"
+              className="w-full h-[500px]"
+              alt="country-image"
             />
           </div>
           <div
@@ -147,7 +148,8 @@ const CountryInfo = () => {
                 Border Countries:
               </p>{" "}
               <div className=" grid grid-cols-3 xl:gap-3 gap-1 xl:ml-4">
-                {filteredCountry.borders.length && filteredCountry.borders.length > 0 ? (
+                {filteredCountry.borders &&
+                Array.isArray(filteredCountry.borders) ? (
                   filteredCountry.borders.map((code: any) => {
                     const borderCountry = countries.find(
                       (c: any) => c.cca3 === code

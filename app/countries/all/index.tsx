@@ -32,6 +32,7 @@ import Loader from "@/components/loader";
 const All = () => {
   const rowsPerPage = 12;
   const [startIndex, setStartIndex] = useState(0);
+  const [success, setSuccess] = useState(false);
   const [endIndex, setEndIndex] = useState(rowsPerPage);
   const [countries, setCountries] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -39,25 +40,27 @@ const All = () => {
   const [selectedRegion, setSelectedRegion] = useState("Filter by region");
   const [searchCountry, setSearchCountry] = useState("");
   const theme = useSelector((state: RootState) => state.changeTheme.theme);
-  const success = useSelector((state: RootState) => state.changeTheme.success);
   const router = useRouter();
   const dispatch = useDispatch();
-
+  //console.log(success);
   useEffect(() => {
     const fetchCountries = async () => {
       try {
         const response = await axios.get("https://restcountries.com/v3.1/all");
         setCountries(response.data);
         setLoading(false);
+        setSuccess(true);
       } catch (error: any) {
         setError(error);
         setLoading(false);
       }
     };
     fetchCountries();
-  }, [dispatch, countries]);
+  }, [dispatch]);
 
-  //console.log(countries)
+  //console.log(success);
+
+  ////console.log(countries)
 
   const mappedCountries = countries?.map((country: any) => ({
     countryName: country.name.official,
@@ -76,8 +79,8 @@ const All = () => {
   }));
 
   //const r = mappedCountries.map((reg) => reg.commonName);
-  //console.log(r);
-  console.log(mappedCountries);
+  ////console.log(r);
+  //console.log(mappedCountries);
 
   const filterByRegion = (status: string) => {
     if (status === "Filter by region") {
@@ -95,11 +98,11 @@ const All = () => {
 
   const handleRegion = (value: string) => {
     setSelectedRegion(value);
-    console.log(value);
+    //console.log(value);
   };
 
   const handleViewCountryDetails = (capital: any) => {
-    console.log(capital);
+    //console.log(capital);
     dispatch(setCapital(capital));
     dispatch(setCountriesState(mappedCountries));
     router.push("/countries/country-info");
@@ -171,7 +174,7 @@ const All = () => {
             <Loader />
           </div>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 ">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-x-6 gap-y-12 ">
             {filteredCountries
               .slice(startIndex, endIndex)
               .map((country: any, index) => (
@@ -215,60 +218,57 @@ const All = () => {
                   </div>
                 </div>
               ))}
-            {!success ? (
-              <div
-                className={`${
-                  theme === "light" ? "lightmodetext" : "darkmodetext"
-                } flex justify-center text-xl text-center`}
-              >
-                <p>
-                  Server Error 😟😢, please check your network and try again!
-                  😔.
-                </p>
-              </div>
-            ) : (
-              <Pagination>
-                <PaginationContent>
-                  <PaginationItem>
-                    <Button>
-                      <PaginationPrevious
-                        className={`${
-                          endIndex === 12
-                            ? "pointer-events-none opacity-50"
-                            : undefined
-                        } ${
-                          theme === "light" ? "lightmodetext" : "darkmodetext"
-                        }`}
-                        onClick={() => {
-                          setStartIndex(startIndex - rowsPerPage);
-                          setEndIndex(endIndex - rowsPerPage);
-                        }}
-                      />
-                    </Button>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <Button>
-                      <PaginationNext
-                        className={`${
-                          endIndex === 250
-                            ? "pointer-events-none opacity-50"
-                            : undefined
-                        } ${
-                          theme === "light" ? "lightmodetext" : "darkmodetext"
-                        }`}
-                        onClick={() => {
-                          setStartIndex(startIndex + rowsPerPage); //12
-                          setEndIndex(endIndex + rowsPerPage); //12 + 12 = 32
-                        }}
-                      />
-                    </Button>
-                  </PaginationItem>
-                </PaginationContent>
-              </Pagination>
-            )}
           </div>
         )}
       </div>
+      {!success ? (
+        <div
+          className={`${
+            theme === "light" ? "lightmodetext" : "darkmodetext"
+          } flex justify-center text-xl  w-full`}
+        >
+          <p className="text-center w-full">
+            Server Error 😟😢, please check your network and try again! 😔.
+          </p>
+        </div>
+      ) : (
+        <div className="w-full ">
+          <Pagination className="">
+            <PaginationContent>
+              <PaginationItem>
+                <Button>
+                  <PaginationPrevious
+                    className={`${
+                      endIndex === 12
+                        ? "pointer-events-none opacity-50"
+                        : undefined
+                    } ${theme === "light" ? "lightmodetext" : "darkmodetext"}`}
+                    onClick={() => {
+                      setStartIndex(startIndex - rowsPerPage);
+                      setEndIndex(endIndex - rowsPerPage);
+                    }}
+                  />
+                </Button>
+              </PaginationItem>
+              <PaginationItem>
+                <Button>
+                  <PaginationNext
+                    className={`${
+                      endIndex === 250
+                        ? "pointer-events-none opacity-50"
+                        : undefined
+                    } ${theme === "light" ? "lightmodetext" : "darkmodetext"}`}
+                    onClick={() => {
+                      setStartIndex(startIndex + rowsPerPage); //12
+                      setEndIndex(endIndex + rowsPerPage); //12 + 12 = 32
+                    }}
+                  />
+                </Button>
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </div>
+      )}
     </div>
   );
 };

@@ -16,7 +16,7 @@ const Header = () => {
   const theme = useSelector((state: RootState) => state.changeTheme.theme);
 
   const handleThemeChange = () => {
-    console.log("initial: ", theme);
+    //console.log("initial: ", theme);
     theme === "light"
       ? dispatch(setTheme("dark"))
       : dispatch(setTheme("light"));
