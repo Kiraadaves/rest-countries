@@ -3,7 +3,7 @@ import All from ".";
 
 const page = () => {
   return (
-    <div className="h-[100rem]">
+    <div className="">
       <All />
     </div>
   );

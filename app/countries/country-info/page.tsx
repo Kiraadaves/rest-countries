@@ -3,7 +3,7 @@ import CountryInfo from ".";
 
 const page = () => {
   return (
-    <div className="h-[100rem]">
+    <div className="">
       <CountryInfo />
     </div>
   );

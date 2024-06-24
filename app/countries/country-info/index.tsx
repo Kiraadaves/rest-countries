@@ -4,6 +4,7 @@ import Link from "next/link";
 import React from "react";
 import { useSelector } from "react-redux";
 import { FaArrowLeftLong } from "react-icons/fa6";
+import Header from "@/components/header";
 
 const CountryInfo = () => {
   const theme = useSelector((state: RootState) => state.changeTheme.theme);
@@ -57,124 +58,128 @@ const CountryInfo = () => {
 
   //console.log("filteredCountry: ", filteredCountry);
   return (
-    <div
-      className={`${
-        theme === "light" ? "lightmodebg" : "darkmodebg"
-      } lg:py-20  py-10 lg:px-12 md:px-9 px-6 flex flex-col gap-10 h-full`}
-    >
-      <div className="">
-        <Link
-          href="/countries/all"
-          className={`${
-            theme === "light"
-              ? "border-slate-200  border-2 border-solid bg-[#ffffff]"
-              : "border-none darkmodeelements"
-          } flex items-center justify-center gap-3 p-4 rounded-[6px] w-40 shadow-lg`}
-        >
-          {theme === "light" ? (
-            <FaArrowLeftLong className="h-5 w-5" />
-          ) : (
-            <FaArrowLeftLong className="darkmodetext h-5 w-5" />
-          )}
-
-          <p
+    <div>
+      <Header />
+      <div
+        className={`${
+          theme === "light" ? "lightmodebg" : "darkmodebg"
+        } lg:py-20  py-10 lg:px-12 md:px-9 px-6 flex flex-col gap-10 min-h-screen`}
+      >
+        <div className="">
+          <Link
+            href="/countries/all"
             className={`${
-              theme === "dark" ? "darkmodetext" : "lightmodetext"
-            } `}
+              theme === "light"
+                ? "border-slate-200  border-2 border-solid bg-[#ffffff]"
+                : "border-none darkmodeelements"
+            } flex items-center justify-center gap-3 p-4 rounded-[6px] w-40 shadow-lg`}
           >
-            Back
-          </p>
-        </Link>
-      </div>
+            {theme === "light" ? (
+              <FaArrowLeftLong className="h-5 w-5" />
+            ) : (
+              <FaArrowLeftLong className="darkmodetext h-5 w-5" />
+            )}
 
-      {filteredCountry && (
-        <div className="flex flex-col xl:flex-row xl:gap-24 py-12 h-20">
-          <div className="xl:w-1/2 w-full h-[800px]">
-            <img
-              src={filteredCountry.flag}
-              className="w-full h-[500px]"
-              alt="country-image"
-            />
-          </div>
-          <div
-            className={`${
-              theme === "light" ? "lightmodetext " : "darkmodetext "
-            } xl:w-1/2 w-full py-16 flex flex-col gap-12`}
-          >
-            <p className="text-4xl font-extrabold xl:text-left ">
-              {filteredCountry && filteredCountry.commonName}
-            </p>
-            <div
-              className={`flex flex-col xl:flex-row xl:justify-between xl:items-start  text-left`}
+            <p
+              className={`${
+                theme === "dark" ? "darkmodetext" : "lightmodetext"
+              } `}
             >
-              <div className="flex flex-col gap-4">
-                <p className="xl:text-base text-lg">
-                  <span className="font-semibold">Native Name:</span>{" "}
-                  {nativeName}
-                </p>
-                <p className="xl:text-base text-lg">
-                  <span className="font-semibold">Population: </span>{" "}
-                  {filteredCountry.population.toLocaleString()}
-                </p>
-                <p className="xl:text-base text-lg">
-                  <span className="font-semibold">Region: </span>{" "}
-                  {filteredCountry.region}
-                </p>
-                <p className="xl:text-base text-lg">
-                  <span className="font-semibold">Sub Region: </span>{" "}
-                  {filteredCountry.subregion}
-                </p>
-                <p className="xl:text-base text-lg">
-                  <span className="font-semibold">Capital: </span>{" "}
-                  {filteredCountry.capital[0]}
-                </p>
-              </div>
-              <div className="flex flex-col gap-5 mt-5 xl:mt-0">
-                <p className="xl:text-base text-lg">
-                  <span className="font-semibold">Top Level Domain:</span>{" "}
-                  {filteredCountry.tld}
-                </p>
-                <p className="xl:text-base text-lg">
-                  <span className="font-semibold">Currencies:</span> {currency}
-                </p>
-                <p className="xl:text-base text-lg">
-                  <span className="font-semibold">Languages:</span>{" "}
-                  {formattedLanguageString}
-                </p>
-              </div>
+              Back
+            </p>
+          </Link>
+        </div>
+
+        {filteredCountry && (
+          <div className="flex flex-col xl:flex-row xl:gap-24 py-12 h-20">
+            <div className="xl:w-1/2 w-full h-[800px]">
+              <img
+                src={filteredCountry.flag}
+                className="w-full h-[500px]"
+                alt="country-image"
+              />
             </div>
-            <div className="flex flex-col xl:flex-row pt-8 ">
-              <p className="xl:text-base text-lg font-semibold mb-4 xl:mb-0">
-                Border Countries:
-              </p>{" "}
-              <div className=" grid grid-cols-3 xl:gap-3 gap-1 xl:ml-4">
-                {filteredCountry.borders &&
-                Array.isArray(filteredCountry.borders) ? (
-                  filteredCountry.borders.map((code: any) => {
-                    const borderCountry = countries.find(
-                      (c: any) => c.cca3 === code
-                    );
-                    return borderCountry ? (
-                      <span
-                        key={code}
-                        className={`${
-                          theme === "light"
-                            ? "border-slate-200  border-2 border-solid bg-[#ffffff]"
-                            : "border-none darkmodeelements"
-                        } xl:text-[16px] md:text-[14px] text-[10.5px] xl:px-2 py-3 px-1 rounded-[6px] xl:w-40 w-26 md:w-40 text-center shadow-md`}
-                      >
-                        {(borderCountry as any).commonName}
-                      </span>
-                    ) : null;
-                  })
-                ) : (
-                  <span>No border countries</span>
-                )}
+            <div
+              className={`${
+                theme === "light" ? "lightmodetext " : "darkmodetext "
+              } xl:w-1/2 w-full py-16 flex flex-col gap-12`}
+            >
+              <p className="text-4xl font-extrabold xl:text-left ">
+                {filteredCountry && filteredCountry.commonName}
+              </p>
+              <div
+                className={`flex flex-col xl:flex-row xl:justify-between xl:items-start  text-left`}
+              >
+                <div className="flex flex-col gap-4">
+                  <p className="xl:text-base text-lg">
+                    <span className="font-semibold">Native Name:</span>{" "}
+                    {nativeName}
+                  </p>
+                  <p className="xl:text-base text-lg">
+                    <span className="font-semibold">Population: </span>{" "}
+                    {filteredCountry.population.toLocaleString()}
+                  </p>
+                  <p className="xl:text-base text-lg">
+                    <span className="font-semibold">Region: </span>{" "}
+                    {filteredCountry.region}
+                  </p>
+                  <p className="xl:text-base text-lg">
+                    <span className="font-semibold">Sub Region: </span>{" "}
+                    {filteredCountry.subregion}
+                  </p>
+                  <p className="xl:text-base text-lg">
+                    <span className="font-semibold">Capital: </span>{" "}
+                    {filteredCountry.capital[0]}
+                  </p>
+                </div>
+                <div className="flex flex-col gap-5 mt-5 xl:mt-0">
+                  <p className="xl:text-base text-lg">
+                    <span className="font-semibold">Top Level Domain:</span>{" "}
+                    {filteredCountry.tld}
+                  </p>
+                  <p className="xl:text-base text-lg">
+                    <span className="font-semibold">Currencies:</span>{" "}
+                    {currency}
+                  </p>
+                  <p className="xl:text-base text-lg">
+                    <span className="font-semibold">Languages:</span>{" "}
+                    {formattedLanguageString}
+                  </p>
+                </div>
+              </div>
+              <div className="flex flex-col xl:flex-row pt-8 ">
+                <p className="xl:text-base text-lg font-semibold mb-4 xl:mb-0">
+                  Border Countries:
+                </p>{" "}
+                <div className=" grid grid-cols-3 xl:gap-3 gap-1 xl:ml-4">
+                  {filteredCountry.borders &&
+                  Array.isArray(filteredCountry.borders) ? (
+                    filteredCountry.borders.map((code: any) => {
+                      const borderCountry = countries.find(
+                        (c: any) => c.cca3 === code
+                      );
+                      return borderCountry ? (
+                        <span
+                          key={code}
+                          className={`${
+                            theme === "light"
+                              ? "border-slate-200  border-2 border-solid bg-[#ffffff]"
+                              : "border-none darkmodeelements"
+                          } xl:text-[16px] md:text-[14px] text-[10.5px] xl:px-2 py-3 px-1 rounded-[6px] xl:w-40 w-26 md:w-40 text-center shadow-md`}
+                        >
+                          {(borderCountry as any).commonName}
+                        </span>
+                      ) : null;
+                    })
+                  ) : (
+                    <span>No border countries</span>
+                  )}
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };

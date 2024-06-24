@@ -8,8 +8,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { cn } from "@/lib/utils";
 import Header from "@/components/header";
 import { theme } from "./Redux/slice/themeswitcherslice";
-import { useSelector } from "react-redux";
-import { RootState } from "./Redux/slice/interface";
 
 const nunito = Nunito_Sans({
   subsets: ["latin"],
@@ -31,9 +29,8 @@ export default function RootLayout({
     <html lang="en">
       <body className={cn(" min-h-screen antialiased")}>
         <Providers>
-          <div className="">
-            <Header />
-            <div className="">{children}</div>
+          <div className=" ">
+            <div className="min-h-screen bg-[#ffffff]">{children}</div>
             <ToastContainer />
           </div>
         </Providers>
