@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="bg-blue-200">
+      <body className="bg-[#ffffff]">
         <QueryClientProvider client={queryClient}>
           <Providers>
             <div className=" ">

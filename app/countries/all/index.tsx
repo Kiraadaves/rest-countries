@@ -2,7 +2,6 @@
 import { RootState } from "@/app/Redux/slice/interface";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
 import { Input } from "@/components/ui/input";
 import { IoIosSearch } from "react-icons/io";
 import {
@@ -22,10 +21,6 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { Button } from "@/components/ui/button";
-import {
-  setCapital,
-  setCountriesState,
-} from "@/app/Redux/slice/themeswitcherslice";
 import { useRouter } from "next/navigation";
 import Loader from "@/components/loader";
 import Header from "@/components/header";
@@ -36,14 +31,10 @@ const All = () => {
   const rowsPerPage = 12;
   const [startIndex, setStartIndex] = useState(0);
   const [endIndex, setEndIndex] = useState(rowsPerPage);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [selectedRegion, setSelectedRegion] = useState("Filter by region");
   const [searchCountry, setSearchCountry] = useState("");
   const theme = useSelector((state: RootState) => state.changeTheme.theme);
   const router = useRouter();
-  const dispatch = useDispatch();
-  //console.log(success);
   const mappedCountries = countries?.map((country: any) => ({
     countryName: country.name.official,
     commonName: country.name.common,
@@ -59,11 +50,6 @@ const All = () => {
     nativeName: country.name.nativeName,
     tld: `${country.tld ? country.tld[0] : undefined}`,
   }));
-
-  //console.log(mappedC);
-  //const r = mappedCountries.map((reg) => reg.commonName);
-  ////console.log(r);
-  console.log(mappedCountries);
 
   const filterByRegion = (status: string) => {
     if (status === "Filter by region") {
@@ -83,14 +69,9 @@ const All = () => {
 
   const handleRegion = (value: string) => {
     setSelectedRegion(value);
-    //console.log(value);
   };
 
   const handleViewCountryDetails = (name: any) => {
-    //console.log(capital);
-    dispatch(setCapital(name));
-    dispatch(setCountriesState(mappedCountries));
-    console.log("name: ", name);
     router.push(`/countries/name/${name}`);
   };
 
@@ -124,7 +105,7 @@ const All = () => {
                       theme === "light"
                         ? "border-slate-200  border-2 border-solid bg-[#ffffff]"
                         : "border-none darkmodeelements"
-                    } flex  items-center rounded-[6px] px-5  shadow-md lg:w-1/3 w-full`}
+                    } flex  items-center rounded-[6px] px-5 h-[48px] shadow-md lg:w-1/3 w-full`}
                   >
                     {theme === "light" ? (
                       <IoIosSearch className="h-5 w-5 " />

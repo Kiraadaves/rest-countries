@@ -1,21 +1,21 @@
 "use client";
 import { RootState } from "@/app/Redux/slice/interface";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import Header from "@/components/header";
 import useGetSingleCountry from "@/hooks/useGetSingleCountry";
 import { useParams } from "next/navigation";
+import useGetCountries from "@/hooks/useGetCountries";
 
 const CountryInfo = () => {
   const params = useParams();
   const name = Array.isArray(params.name) ? params.name[0] : params.name;
   const theme = useSelector((state: RootState) => state.changeTheme.theme);
   const capital = useSelector((state: RootState) => state.changeTheme.capital);
-
   const { country, isLoading, isPending } = useGetSingleCountry(name);
-  console.log(country[0]);
+  const { countries } = useGetCountries();
 
   const mappedCountry =
     country &&
@@ -32,9 +32,9 @@ const CountryInfo = () => {
       tld: c.tld,
       currencies: c.currencies,
       languages: c.languages,
+      cca3: c.cca3,
     }));
 
-  console.log(mappedCountry[0]);
   return (
     <div
       className={`min-h-screen ${
@@ -52,14 +52,11 @@ const CountryInfo = () => {
               theme === "light"
                 ? "border-slate-200  border-2 border-solid bg-[#ffffff]"
                 : "border-none darkmodeelements"
-            } flex items-center justify-center gap-3 p-4 rounded-[6px] w-40 shadow-lg`}
+            } flex items-center justify-center gap-3 p-4 rounded-[6px] w-40 shadow-xl`}
           >
-            {theme === "light" ? (
-              <FaArrowLeftLong className="h-5 w-5" />
-            ) : (
-              <FaArrowLeftLong className="darkmodetext h-5 w-5" />
-            )}
-
+            <FaArrowLeftLong
+              className={` ${theme === "light" ? "" : "darkmodetext"}  h-5 w-5`}
+            />
             <p
               className={`${
                 theme === "dark" ? "darkmodetext" : "lightmodetext"
@@ -91,8 +88,21 @@ const CountryInfo = () => {
                 className={`flex flex-col xl:flex-row xl:justify-between xl:items-start  text-left`}
               >
                 <div className="flex flex-col gap-4">
-                  <p className="xl:text-base text-lg">
-                    <span className="font-semibold">Native Name:</span> {}
+                  <p className="xl:text-base text-lg font-semibold">
+                    Native Names:{" "}
+                    {mappedCountry[0]?.nativeName &&
+                      Object.entries(mappedCountry[0].nativeName).map(
+                        (
+                          [languageCode, native]: [string, any],
+                          index: number,
+                          arr
+                        ) => (
+                          <span key={languageCode}>
+                            {native.common}
+                            {index < arr.length - 1 && ", "}{" "}
+                          </span>
+                        )
+                      )}
                   </p>
                   <p className="xl:text-base text-lg">
                     <span className="font-semibold">Population: </span>{" "}
@@ -139,38 +149,37 @@ const CountryInfo = () => {
                           </span>
                         )
                       )}
-                    <span className=""></span>
                   </p>
                 </div>
               </div>
               <div className="flex flex-col xl:flex-row pt-8 ">
                 <p className="xl:text-base text-lg font-semibold mb-4 xl:mb-0">
-                  Border Countries:
-                </p>{" "}
-                {/*<div className=" grid grid-cols-3 xl:gap-3 gap-1 xl:ml-4">
-                  {filteredCountry.borders &&
-                  Array.isArray(filteredCountry.borders) ? (
-                    filteredCountry.borders.map((code: any) => {
-                      const borderCountry = countries.find(
-                        (c: any) => c.cca3 === code
-                      );
-                      return borderCountry ? (
-                        <span
-                          key={code}
-                          className={`${
-                            theme === "light"
-                              ? "border-slate-200  border-2 border-solid bg-[#ffffff]"
-                              : "border-none darkmodeelements"
-                          } xl:text-[16px] md:text-[14px] text-[10.5px] xl:px-2 py-3 px-1 rounded-[6px] xl:w-40 w-26 md:w-40 text-center shadow-md`}
-                        >
-                          {(borderCountry as any).commonName}
-                        </span>
-                      ) : null;
-                    })
+                  Border Countries:{" "}
+                  {mappedCountry[0]?.borders &&
+                  mappedCountry[0].borders.length > 0 ? (
+                    mappedCountry[0].borders.map(
+                      (borderCode: string, index: number) => {
+                        const borderCountry = countries.find(
+                          (country: any) => country.cca3 === borderCode
+                        );
+                        return (
+                          <span
+                            key={borderCode}
+                            className={` ${
+                              theme === "light"
+                                ? "border-slate-200  border-2 border-solid bg-[#ffffff]"
+                                : "border-none darkmodeelements"
+                            } ml-5 xl:text-[16px] md:text-[14px] text-[10.5px] xl:px-2 py-3 px-1 rounded-[6px] xl:w-40 w-26 md:w-40 text-center shadow-md`}
+                          >
+                            {borderCountry?.name.common || borderCode}{" "}
+                          </span>
+                        );
+                      }
+                    )
                   ) : (
                     <span>No border countries</span>
                   )}
-                </div>*/}
+                </p>{" "}
               </div>
             </div>
           </div>
