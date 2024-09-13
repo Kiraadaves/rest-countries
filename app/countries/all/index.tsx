@@ -29,13 +29,13 @@ import {
 import { useRouter } from "next/navigation";
 import Loader from "@/components/loader";
 import Header from "@/components/header";
+import useGetCountries from "@/hooks/useGetCountries";
 
 const All = () => {
+  const { countries, isLoading, isPending } = useGetCountries();
   const rowsPerPage = 12;
   const [startIndex, setStartIndex] = useState(0);
-  const [success, setSuccess] = useState(false);
   const [endIndex, setEndIndex] = useState(rowsPerPage);
-  const [countries, setCountries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedRegion, setSelectedRegion] = useState("Filter by region");
@@ -44,24 +44,6 @@ const All = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   //console.log(success);
-  useEffect(() => {
-    const fetchCountries = async () => {
-      try {
-        const response = await axios.get("https://restcountries.com/v3.1/all");
-        setCountries(response.data);
-        setLoading(false);
-        setSuccess(true);
-      } catch (error: any) {
-        setError(error);
-        setLoading(false);
-      }
-    };
-    fetchCountries();
-  }, [dispatch]);
-
-  //console.log(success);
-
-  ////console.log(countries)
 
   const mappedCountries = countries?.map((country: any) => ({
     countryName: country.name.official,
@@ -87,12 +69,14 @@ const All = () => {
     if (status === "Filter by region") {
       return mappedCountries;
     } else {
-      return mappedCountries.filter((r) => r.region.toLowerCase() === status);
+      return mappedCountries.filter(
+        (r: any) => r.region.toLowerCase() === status
+      );
     }
   };
 
   const filteredCountries = searchCountry
-    ? filterByRegion(selectedRegion).filter((c) =>
+    ? filterByRegion(selectedRegion).filter((c: any) =>
         c.countryName.toLowerCase().includes(searchCountry)
       )
     : filterByRegion(selectedRegion);
@@ -111,11 +95,11 @@ const All = () => {
 
   return (
     <>
-      {loading ? (
+      {isLoading ? (
         <Loader />
       ) : (
         <>
-          {!success ? (
+          {isPending ? (
             <div
               className={`mt-40  items-center justify-center text-xl font-bold  w-full`}
             >
@@ -190,7 +174,7 @@ const All = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-x-6 gap-y-12 ">
                   {filteredCountries
                     .slice(startIndex, endIndex)
-                    .map((country: any, index) => (
+                    .map((country: any, index: any) => (
                       <div
                         onClick={() =>
                           handleViewCountryDetails(country.capital[0])
@@ -200,7 +184,7 @@ const All = () => {
                           theme === "light"
                             ? "border-slate-200  border-2 border-solid"
                             : "border-none"
-                        }flex flex-col shadow-md rounded-[6px] h-[400px]`}
+                        } cursor-pointer flex flex-col shadow-md rounded-[6px] h-[400px]`}
                       >
                         <div className="h-[200px] w-full rounded-[6px]">
                           <img
@@ -213,7 +197,7 @@ const All = () => {
                             theme === "light"
                               ? "lightmodetext bg-[#ffffff]"
                               : "darkmodetext darkmodeelements"
-                          } px-5 pt-5  flex flex-col gap-1 rounded-b-[6px] h-[200px]`}
+                          }  px-5 pt-5  flex flex-col gap-1 rounded-b-[6px] h-[200px]`}
                         >
                           <p className="text-xl font-extrabold pb-3">
                             {country.countryName}
