@@ -5,62 +5,42 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import Header from "@/components/header";
+import useGetSingleCountry from "@/hooks/useGetSingleCountry";
+import { useParams } from "next/navigation";
 
 const CountryInfo = () => {
+  const params = useParams();
+  const name = Array.isArray(params.name) ? params.name[0] : params.name;
   const theme = useSelector((state: RootState) => state.changeTheme.theme);
   const capital = useSelector((state: RootState) => state.changeTheme.capital);
-  const countries = useSelector(
-    (state: RootState) => state.changeTheme.countries
-  );
 
-  const filteredCountry: any = countries
-    ? countries.find((country: any) =>
-        country.capital ? country.capital[0] === capital : undefined
-      )
-    : [];
+  const { country, isLoading, isPending } = useGetSingleCountry(name);
+  console.log(country[0]);
 
-  const languageArray = filteredCountry
-    ? Object.values(filteredCountry.languages)
-    : undefined;
+  const mappedCountry =
+    country &&
+    country.map((c: any) => ({
+      flag: c.flags.png,
+      alt: c.flags.alt,
+      capital: c.capital[0],
+      borders: c.borders,
+      nativeName: c.name.nativeName,
+      name: c.name.common,
+      region: c.region,
+      subRegion: c.subregion,
+      population: c.population,
+      tld: c.tld,
+      currencies: c.currencies,
+      languages: c.languages,
+    }));
 
-  const formattedLanguageString = languageArray
-    ? languageArray.sort().join(", ") + "."
-    : undefined;
-  //console.log(formattedLanguageString);
-  //
-  const nativeNameArray: any = filteredCountry
-    ? Object.entries(filteredCountry.nativeName)
-    : undefined;
-
-  const mapnativeNameArray = nativeNameArray
-    ? nativeNameArray.map((nativeNameArrays: any) => ({
-        lang: nativeNameArrays[0],
-        native: nativeNameArrays[1].common,
-      }))
-    : undefined;
-
-  const currencies: any = filteredCountry
-    ? Object.entries(filteredCountry.currencies)
-    : undefined;
-
-  const mapCurrencies = currencies
-    ? currencies.map((currency: any) => ({
-        name: currency[1].name,
-        symbol: currency[1].symbol,
-      }))
-    : undefined;
-
-  const nativeName = mapnativeNameArray
-    ? mapnativeNameArray[0].native
-    : undefined;
-
-  const currency = mapCurrencies ? mapCurrencies[0].name : undefined;
-
-  //console.log("filteredCountry: ", filteredCountry);
+  console.log(mappedCountry[0]);
   return (
-    <div className={`min-h-screen ${
-      theme === "light" ? "lightmodebg" : "darkmodebg"
-    }`}>
+    <div
+      className={`min-h-screen ${
+        theme === "light" ? "lightmodebg" : "darkmodebg"
+      }`}
+    >
       <Header />
       <div
         className={` lg:py-20  py-10 lg:px-12 md:px-9 px-6 flex flex-col gap-10 `}
@@ -90,13 +70,13 @@ const CountryInfo = () => {
           </Link>
         </div>
 
-        {filteredCountry && (
+        {mappedCountry && (
           <div className="flex flex-col xl:flex-row xl:gap-24 py-12  min-h-screen">
             <div className="xl:w-1/2 w-full">
               <img
-                src={filteredCountry.flag}
+                src={mappedCountry[0]?.flag}
                 className="w-full h-[500px]"
-                alt="country-image"
+                alt={mappedCountry[0]?.flag}
               />
             </div>
             <div
@@ -105,45 +85,61 @@ const CountryInfo = () => {
               } xl:w-1/2 w-full py-16 flex flex-col gap-12`}
             >
               <p className="text-4xl font-extrabold xl:text-left ">
-                {filteredCountry && filteredCountry.commonName}
+                {mappedCountry[0]?.name}
               </p>
               <div
                 className={`flex flex-col xl:flex-row xl:justify-between xl:items-start  text-left`}
               >
                 <div className="flex flex-col gap-4">
                   <p className="xl:text-base text-lg">
-                    <span className="font-semibold">Native Name:</span>{" "}
-                    {nativeName}
+                    <span className="font-semibold">Native Name:</span> {}
                   </p>
                   <p className="xl:text-base text-lg">
                     <span className="font-semibold">Population: </span>{" "}
-                    {filteredCountry.population.toLocaleString()}
+                    {mappedCountry[0]?.population.toLocaleString()}
                   </p>
                   <p className="xl:text-base text-lg">
                     <span className="font-semibold">Region: </span>{" "}
-                    {filteredCountry.region}
+                    {mappedCountry[0]?.region}
                   </p>
                   <p className="xl:text-base text-lg">
                     <span className="font-semibold">Sub Region: </span>{" "}
-                    {filteredCountry.subregion}
+                    {mappedCountry[0]?.subRegion || "-"}
                   </p>
                   <p className="xl:text-base text-lg">
                     <span className="font-semibold">Capital: </span>{" "}
-                    {filteredCountry.capital[0]}
+                    {mappedCountry[0]?.capital}
                   </p>
                 </div>
                 <div className="flex flex-col gap-5 mt-5 xl:mt-0">
                   <p className="xl:text-base text-lg">
                     <span className="font-semibold">Top Level Domain:</span>{" "}
-                    {filteredCountry.tld}
+                    {mappedCountry[0]?.tld[0]}
                   </p>
-                  <p className="xl:text-base text-lg">
-                    <span className="font-semibold">Currencies:</span>{" "}
-                    {currency}
+                  <p className="xl:text-base text-lg font-semibold">
+                    Currencies:{" "}
+                    {mappedCountry[0]?.currencies &&
+                      Object.entries(mappedCountry[0].currencies).map(
+                        ([code, currency]: [any, any], index: number, arr) => (
+                          <span key={code} className="">
+                            {currency.name}
+                            {index < arr.length - 1 && ", "}
+                          </span>
+                        )
+                      )}
                   </p>
-                  <p className="xl:text-base text-lg">
-                    <span className="font-semibold">Languages:</span>{" "}
-                    {formattedLanguageString}
+                  <p className="xl:text-base text-lg font-semibold">
+                    Languages:{" "}
+                    {mappedCountry[0]?.languages &&
+                      Object.values(mappedCountry[0].languages).map(
+                        (language: any, index: number, arr) => (
+                          <span key={index}>
+                            {language}
+                            {index < arr.length - 1 && ", "}
+                          </span>
+                        )
+                      )}
+                    <span className=""></span>
                   </p>
                 </div>
               </div>
@@ -151,7 +147,7 @@ const CountryInfo = () => {
                 <p className="xl:text-base text-lg font-semibold mb-4 xl:mb-0">
                   Border Countries:
                 </p>{" "}
-                <div className=" grid grid-cols-3 xl:gap-3 gap-1 xl:ml-4">
+                {/*<div className=" grid grid-cols-3 xl:gap-3 gap-1 xl:ml-4">
                   {filteredCountry.borders &&
                   Array.isArray(filteredCountry.borders) ? (
                     filteredCountry.borders.map((code: any) => {
@@ -174,7 +170,7 @@ const CountryInfo = () => {
                   ) : (
                     <span>No border countries</span>
                   )}
-                </div>
+                </div>*/}
               </div>
             </div>
           </div>

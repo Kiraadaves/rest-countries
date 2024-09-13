@@ -44,7 +44,6 @@ const All = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   //console.log(success);
-
   const mappedCountries = countries?.map((country: any) => ({
     countryName: country.name.official,
     commonName: country.name.common,
@@ -61,9 +60,10 @@ const All = () => {
     tld: `${country.tld ? country.tld[0] : undefined}`,
   }));
 
+  //console.log(mappedC);
   //const r = mappedCountries.map((reg) => reg.commonName);
   ////console.log(r);
-  //console.log(mappedCountries);
+  console.log(mappedCountries);
 
   const filterByRegion = (status: string) => {
     if (status === "Filter by region") {
@@ -86,11 +86,12 @@ const All = () => {
     //console.log(value);
   };
 
-  const handleViewCountryDetails = (capital: any) => {
+  const handleViewCountryDetails = (name: any) => {
     //console.log(capital);
-    dispatch(setCapital(capital));
+    dispatch(setCapital(name));
     dispatch(setCountriesState(mappedCountries));
-    router.push("/countries/country-info");
+    console.log("name: ", name);
+    router.push(`/countries/name/${name}`);
   };
 
   return (
@@ -177,7 +178,7 @@ const All = () => {
                     .map((country: any, index: any) => (
                       <div
                         onClick={() =>
-                          handleViewCountryDetails(country.capital[0])
+                          handleViewCountryDetails(country.commonName)
                         }
                         key={index}
                         className={`${
